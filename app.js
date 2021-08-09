@@ -8,6 +8,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "index.html"));
 });
 
-app.listen(8080, "0.0.0.0", () => {
+app.listen(process.env.PORT || 8080, "0.0.0.0", () => {
   console.log("server started");
 });
