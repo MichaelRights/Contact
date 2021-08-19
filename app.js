@@ -131,7 +131,7 @@ function checkUrlAvailability(botResponse, text_received) {
       Revision: 1,
       Buttons: [
         {
-          Columns: 3,
+          Columns: 2,
           Rows: 2,
           BgColor: "#e6f5ff",
           BgMedia: "https://image.flaticon.com/icons/png/512/58/58679.png",
@@ -141,7 +141,7 @@ function checkUrlAvailability(botResponse, text_received) {
           ActionBody: "Yes",
         },
         {
-          Columns: 3,
+          Columns: 2,
           Rows: 2,
           BgColor: "#e6f5ff",
           BgMedia: "https://image.flaticon.com/icons/png/512/545/545676.png",
