@@ -99,7 +99,7 @@ app.get("/send_message", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "index.html"));
 });
-server.listen(8080, () => {
+server.listen(process.env.PORT, () => {
   console.log("server stared");
 });
 /*
