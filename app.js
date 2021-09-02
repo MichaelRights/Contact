@@ -17,29 +17,31 @@ const server = http.createServer(app);
 app.post("/webhook", (req, res) => {
   console.log("webhook");
   console.log(req.body);
-  request(
-    {
-      url: "https://chatapi.viber.com/pa/send_message",
-      headers: {
-        "X-Viber-Auth-Token": viberToken,
-      },
-      method: "POST",
-      json: true,
-      body: {
-        receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
-        min_api_version: 1,
-        sender: {
-          name: "TrafficSBot",
+  if (req.body.event === "message") {
+    request(
+      {
+        url: "https://chatapi.viber.com/pa/send_message",
+        headers: {
+          "X-Viber-Auth-Token": viberToken,
         },
-        tracking_data: "tracking data",
-        type: "text",
-        text: "Hello world!",
+        method: "POST",
+        json: true,
+        body: {
+          receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
+          min_api_version: 1,
+          sender: {
+            name: "TrafficSBot",
+          },
+          tracking_data: "tracking data",
+          type: "text",
+          text: "Hello world!",
+        },
       },
-    },
-    (error, response) => {
-      res.send(response.body);
-    },
-  );
+      (error, response) => {
+        res.send(response.body);
+      },
+    );
+  }
 });
 
 app.get("/set_webhook", (req, res) => {
