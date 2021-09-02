@@ -4,6 +4,7 @@ const http = require("http");
 const cors = require("cors");
 const request = require("request");
 const path = require("path");
+const { json } = require("express");
 
 app.use(cors());
 
@@ -111,14 +112,38 @@ app.get("/send_message", (req, res) => {
       method: "POST",
       json: true,
       body: {
-        receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
-        min_api_version: 1,
         sender: {
-          name: "TrafficSBot",
+          name: "John McClane",
         },
-        tracking_data: "tracking data",
-        type: "text",
-        text: "Hello world!",
+        min_api_version: 2,
+        type: "rich_media",
+        broadcast_list: [
+          "pttm25kSGUo1919sBORWyA==",
+          "2yBSIsbzs7sSrh4oLm2hdQ==",
+          "EGAZ3SZRi6zW1D0uNYhQHg==",
+          "kBQYX9LrGyF5mm8JTxdmpw==",
+        ],
+        rich_media: {
+          Type: "rich_media",
+          BgColor: "#FFFFFF",
+          Buttons: [
+            {
+              ActionBody: "https://www.google.com",
+              ActionType: "open-url",
+              Text: "Should get back my ID instead of replace_me_with_receiver_id",
+            },
+            {
+              ActionBody: "https://www.google.com",
+              ActionType: "open-url",
+              Text: "Should get back my URL encoded ID instead of replace_me_with_url_encoded_receiver_id",
+            },
+            {
+              ActionBody: "https://www.google.com",
+              ActionType: "open-url",
+              Text: "Should get back my name instead of replace_me_with_user_name",
+            },
+          ],
+        },
       },
     },
     (error, response) => {
