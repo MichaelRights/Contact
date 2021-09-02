@@ -3,6 +3,7 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const request = require("request");
+const path = require("path");
 
 app.use(cors());
 
@@ -12,6 +13,13 @@ app.use(express.json());
 const viberToken = "4dd7486adb67d0e5-1d2b253e4cb08827-4229ac22813666e";
 
 const server = http.createServer(app);
+app.get("/callback", (req, res) => {
+  res.status(200).send({
+    event: "webhook",
+    timestamp: 1457764197627,
+    message_token: 241256543215,
+  });
+});
 app.get("/set_webhook", (req, res) => {
   request(
     {
@@ -21,7 +29,7 @@ app.get("/set_webhook", (req, res) => {
       },
       method: "POST",
       body: JSON.stringify({
-        url: "https://addcontactt.herokuapp.com/",
+        url: "https://addcontactt.herokuapp.com/callback",
         event_types: [
           "delivered",
           "seen",
@@ -96,7 +104,7 @@ app.get("/send_message", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "index.html"));
 });
-server.listen(process.env.PORT, () => {
+server.listen(8080, () => {
   console.log("server stared");
 });
 /*
