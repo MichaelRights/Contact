@@ -78,7 +78,7 @@ app.get("/get_account_info", (req, res) => {
 app.get("/send_message", (req, res) => {
   request(
     {
-      url: "https://chatapi.viber.com/pa/send_message",
+      url: "https://chatapi.viber.com/pa/post_to_public_chat",
       headers: {
         "X-Viber-Auth-Token": viberToken,
       },
