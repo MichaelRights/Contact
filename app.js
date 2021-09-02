@@ -42,6 +42,8 @@ app.post("/webhook", (req, res) => {
         res.send(response.body);
       },
     );
+  } else {
+    res.send(req.body);
   }
 });
 
