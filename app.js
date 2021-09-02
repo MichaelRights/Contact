@@ -15,6 +15,8 @@ const viberToken = "4dd7486adb67d0e5-1d2b253e4cb08827-4229ac22813666e";
 const server = http.createServer(app);
 
 app.post("/webhook", (req, res) => {
+  console.log("webhook");
+  console.log(req.body);
   res.status(200).send();
 });
 
