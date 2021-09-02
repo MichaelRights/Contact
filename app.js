@@ -1,17 +1,114 @@
-require("dotenv").config();
-const ViberBot = require("viber-bot").Bot;
-const BotEvents = require("viber-bot").Events;
+const express = require("express");
+const app = express();
+const http = require("http");
+const cors = require("cors");
+const request = require("request");
 
-const TextMessage = require("viber-bot").Message.Text;
-const UrlMessage = require("viber-bot").Message.Url;
-const ContactMessage = require("viber-bot").Message.Contact;
-const PictureMessage = require("viber-bot").Message.Picture;
-const VideoMessage = require("viber-bot").Message.Video;
-const LocationMessage = require("viber-bot").Message.Location;
-const StickerMessage = require("viber-bot").Message.Sticker;
-const FileMessage = require("viber-bot").Message.File;
-const RichMediaMessage = require("viber-bot").Message.RichMedia;
-const KeyboardMessage = require("viber-bot").Message.Keyboard;
+app.use(cors());
+app.use(express.json());
+const viberToken = "4dd7486adb67d0e5-1d2b253e4cb08827-4229ac22813666e";
+
+const server = http.createServer(app);
+app.get("/set_webhook", (req, res) => {
+  request(
+    {
+      url: "https://chatapi.viber.com/pa/set_webhook",
+      headers: {
+        "X-Viber-Auth-Token": viberToken,
+      },
+      method: "POST",
+      body: JSON.stringify({
+        url: "https://addcontactt.herokuapp.com/",
+        event_types: [
+          "delivered",
+          "seen",
+          "failed",
+          "subscribed",
+          "unsubscribed",
+          "conversation_started",
+        ],
+        send_name: true,
+        send_photo: true,
+      }),
+    },
+    (error, response) => {
+      res.send(response.body);
+    },
+  );
+});
+
+app.get("/get_account_info", (req, res) => {
+  request(
+    {
+      url: "https://chatapi.viber.com/pa/get_account_info",
+      headers: {
+        "X-Viber-Auth-Token": viberToken,
+      },
+      method: "POST",
+      body: JSON.stringify({
+        url: "https://addcontactt.herokuapp.com/",
+        event_types: [
+          "delivered",
+          "seen",
+          "failed",
+          "subscribed",
+          "unsubscribed",
+          "conversation_started",
+        ],
+        send_name: true,
+        send_photo: true,
+      }),
+    },
+    (error, response) => {
+      res.send(response.body);
+    },
+  );
+});
+
+app.get("/send_message", (req, res) => {
+  request(
+    {
+      url: "https://chatapi.viber.com/pa/send_message",
+      headers: {
+        "X-Viber-Auth-Token": viberToken,
+      },
+      method: "POST",
+      body: JSON.stringify({
+        receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
+        min_api_version: 1,
+        sender: {
+          name: "TrafficSBot",
+        },
+        tracking_data: "tracking data",
+        type: "text",
+        text: "Hello world!",
+      }),
+    },
+    (error, response) => {
+      res.send(response.body);
+    },
+  );
+});
+
+server.listen(8080, () => {
+  console.log("server stared");
+});
+/*
+require("dotenv").config();
+const Bot = require("viber-bot");
+const ViberBot = Bot.Bot;
+const BotEvents = Bot.Events;
+
+const TextMessage = Bot.Message.Text;
+const UrlMessage = Bot.Message.Url;
+const ContactMessage = Bot.Message.Contact;
+const PictureMessage = Bot.Message.Picture;
+const VideoMessage = Bot.Message.Video;
+const LocationMessage = Bot.Message.Location;
+const StickerMessage = Bot.Message.Sticker;
+const FileMessage = Bot.Message.File;
+const RichMediaMessage = Bot.Message.RichMedia;
+const KeyboardMessage = Bot.Message.Keyboard;
 
 const ngrok = require("./get_public_url");
 
@@ -156,7 +253,6 @@ function checkUrlAvailability(botResponse, text_received) {
   } else {
     message = new TextMessage("Hi!" + sender_name + " (" + sender_id + ")");
   }
-
   console.log(message);
   botResponse.send(message);
 }
@@ -198,21 +294,17 @@ bot
 // Server
 if (process.env.NOW_URL || "https://addcontactt.herokuapp.com/") {
   const http = require("http");
-  const port = process.env.PORT || 5000;
+  const port = 5000;
 
   http
     .createServer(bot.middleware())
-    .listen(port, () =>
-      bot.setWebhook(
-        process.env.NOW_URL || "https://addcontactt.herokuapp.com/",
-      ),
-    );
+    .listen(port, () => bot.setWebhook("https://addcontactt.herokuapp.com/"));
 } else {
   return ngrok
     .getPublicUrl()
     .then((publicUrl) => {
       const http = require("http");
-      const port = process.env.PORT || 5000;
+      const port = 5000;
 
       console.log("publicUrl => ", publicUrl);
 
@@ -226,3 +318,4 @@ if (process.env.NOW_URL || "https://addcontactt.herokuapp.com/") {
       process.exit(1);
     });
 }
+*/
