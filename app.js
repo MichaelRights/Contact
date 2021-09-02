@@ -21,21 +21,24 @@ app.post("/webhook", (req, res) => {
   if (req.body.event === "message") {
     request(
       {
-        url: "https://chatapi.viber.com/pa/send_message",
+        url: "https://chatapi.viber.com/pa/broadcast_message",
         headers: {
           "X-Viber-Auth-Token": viberToken,
         },
         method: "POST",
         json: true,
         body: {
-          receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
-          min_api_version: 1,
+          broadcast_list: [
+            "MN9s1Ip+rvLoIzPA8IRpsA==",
+            "rmP/uW++SMfOUeH3nZ6YbA==",
+          ],
+          min_api_version: 2,
           sender: {
             name: "TrafficSBot",
           },
           tracking_data: "tracking data",
           type: "text",
-          text: "Hello world!",
+          text: req.body.message.text,
         },
       },
       (error, response) => {
