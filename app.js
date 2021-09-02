@@ -13,13 +13,7 @@ app.use(express.json());
 const viberToken = "4dd7486adb67d0e5-1d2b253e4cb08827-4229ac22813666e";
 
 const server = http.createServer(app);
-app.get("/callback", (req, res) => {
-  res.status(200).send({
-    event: "webhook",
-    timestamp: 1457764197627,
-    message_token: 241256543215,
-  });
-});
+
 app.get("/set_webhook", (req, res) => {
   request(
     {
@@ -28,8 +22,9 @@ app.get("/set_webhook", (req, res) => {
         "X-Viber-Auth-Token": viberToken,
       },
       method: "POST",
-      body: JSON.stringify({
-        url: "https://addcontactt.herokuapp.com/callback",
+      json: true,
+      body: {
+        url: "https://addcontactt.herokuapp.com",
         event_types: [
           "delivered",
           "seen",
@@ -40,7 +35,7 @@ app.get("/set_webhook", (req, res) => {
         ],
         send_name: true,
         send_photo: true,
-      }),
+      },
     },
     (error, response) => {
       res.send(response.body);
