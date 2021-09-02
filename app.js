@@ -96,7 +96,7 @@ app.get("/send_message", (req, res) => {
   );
 });
 
-server.listen(8080, () => {
+server.listen(process.env.PORT, () => {
   console.log("server stared");
 });
 /*
