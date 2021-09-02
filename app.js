@@ -5,7 +5,13 @@ const cors = require("cors");
 const request = require("request");
 
 app.use(cors());
+
+app.use(express.static("client"));
 app.use(express.json());
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "index.html"));
+});
 const viberToken = "4dd7486adb67d0e5-1d2b253e4cb08827-4229ac22813666e";
 
 const server = http.createServer(app);
