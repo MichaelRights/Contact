@@ -83,7 +83,8 @@ app.get("/send_message", (req, res) => {
         "X-Viber-Auth-Token": viberToken,
       },
       method: "POST",
-      body: JSON.stringify({
+      json: true,
+      body: {
         receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
         min_api_version: 1,
         sender: {
@@ -92,7 +93,7 @@ app.get("/send_message", (req, res) => {
         tracking_data: "tracking data",
         type: "text",
         text: "Hello world!",
-      }),
+      },
     },
     (error, response) => {
       res.send(response.body);
