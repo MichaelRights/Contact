@@ -48,6 +48,7 @@ app.post("/webhook", (req, res) => {
         },
       );
     } else if (req.body.message.text === "/hello") {
+      console.log(req.body);
       request(
         {
           url: "https://chatapi.viber.com/pa/send_message",
