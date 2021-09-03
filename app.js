@@ -63,8 +63,8 @@ app.post("/webhook", (req, res) => {
               name: "TrafficSBot",
             },
             tracking_data: "tracking data",
-            type: "if you want to work for us type /yes else /no",
-            text: req.body.message.text,
+            type: "text",
+            text: "if you want to work for us type /yes else /no",
           },
         },
         (error, response) => {
@@ -88,8 +88,8 @@ app.post("/webhook", (req, res) => {
               name: "TrafficSBot",
             },
             tracking_data: "tracking data",
-            type: "welcome",
-            text: req.body.message.text,
+            type: "text",
+            text: "welcome",
           },
         },
         (error, response) => {
@@ -113,8 +113,8 @@ app.post("/webhook", (req, res) => {
               name: "TrafficSBot",
             },
             tracking_data: "tracking data",
-            type: "bye bye",
-            text: req.body.message.text,
+            text: "bye bye",
+            type: "text",
           },
         },
         (error, response) => {
