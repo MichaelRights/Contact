@@ -63,7 +63,57 @@ app.post("/webhook", (req, res) => {
               name: "TrafficSBot",
             },
             tracking_data: "tracking data",
-            type: "text",
+            type: "if you want to work for us type /yes else /no",
+            text: req.body.message.text,
+          },
+        },
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+        },
+      );
+    } else if (req.body.message.text === "/yes") {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/send_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            receiver: req.body.sender.id,
+            min_api_version: 1,
+            sender: {
+              name: "TrafficSBot",
+            },
+            tracking_data: "tracking data",
+            type: "welcome",
+            text: req.body.message.text,
+          },
+        },
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+        },
+      );
+    } else if (req.body.message.text === "/no") {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/send_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            receiver: req.body.sender.id,
+            min_api_version: 1,
+            sender: {
+              name: "TrafficSBot",
+            },
+            tracking_data: "tracking data",
+            type: "bye bye",
             text: req.body.message.text,
           },
         },
