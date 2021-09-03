@@ -19,33 +19,60 @@ app.post("/webhook", (req, res) => {
   console.log("webhook");
   console.log(req.body);
   if (req.body.event === "message") {
-    request(
-      {
-        url: "https://chatapi.viber.com/pa/broadcast_message",
-        headers: {
-          "X-Viber-Auth-Token": viberToken,
-        },
-        method: "POST",
-        json: true,
-        body: {
-          broadcast_list: [
-            "MN9s1Ip+rvLoIzPA8IRpsA==",
-            "rmP/uW++SMfOUeH3nZ6YbA==",
-          ],
-          min_api_version: 2,
-          sender: {
-            name: "TrafficSBot",
+    if (req.body.sender.id === "rmP/uW++SMfOUeH3nZ6YbA==") {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/broadcast_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
           },
-          tracking_data: "tracking data",
-          type: "text",
-          text: req.body.message.text,
+          method: "POST",
+          json: true,
+          body: {
+            broadcast_list: [
+              "MN9s1Ip+rvLoIzPA8IRpsA==",
+              "rmP/uW++SMfOUeH3nZ6YbA==",
+            ],
+            min_api_version: 2,
+            sender: {
+              name: "TrafficSBot",
+            },
+            tracking_data: "tracking data",
+            type: "text",
+            text: req.body.message.text,
+          },
         },
-      },
-      (error, response) => {
-        console.log(response.body);
-        res.send(response.body);
-      },
-    );
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+        },
+      );
+    } else if (req.body.message.text === "/hello") {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/send_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            receiver: req.body.sender.id,
+            min_api_version: 1,
+            sender: {
+              name: "TrafficSBot",
+            },
+            tracking_data: "tracking data",
+            type: "text",
+            text: req.body.message.text,
+          },
+        },
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+        },
+      );
+    }
   } else {
     res.send(req.body);
   }
