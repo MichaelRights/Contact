@@ -17,7 +17,6 @@ const server = http.createServer(app);
 
 app.post("/webhook", (req, res) => {
   console.log("webhook");
-  console.log(req.body);
   if (req.body.event === "message") {
     if (req.body.sender.id === "rmP/uW++SMfOUeH3nZ6YbA==") {
       request(
