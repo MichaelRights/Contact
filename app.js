@@ -5,6 +5,7 @@ const cors = require("cors");
 const request = require("request");
 const path = require("path");
 const { json } = require("express");
+const pool = require("./config/database");
 
 app.use(cors());
 
@@ -124,8 +125,48 @@ app.post("/webhook", (req, res) => {
         },
       );
     }
+
+    return;
   } else {
-    res.send(req.body);
+    const message = (
+      await pool.query("select * from messages where sent=false;")
+    ).rows[0];
+
+    if (message) {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/broadcast_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            broadcast_list: [
+              "MN9s1Ip+rvLoIzPA8IRpsA==",
+              "rmP/uW++SMfOUeH3nZ6YbA==",
+            ],
+            min_api_version: 2,
+            sender: {
+              name: "TrafficSBot",
+            },
+            tracking_data: "tracking data",
+            type: "text",
+            text: message.text,
+          },
+        },
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+          pool.query(`
+          Update messages
+          set sent = true
+          where id = ${message.id}`);
+        },
+      );
+    } else {
+      res.send(req.body);
+    }
   }
 });
 
@@ -187,29 +228,36 @@ app.get("/get_account_info", (req, res) => {
 });
 
 app.get("/send_message", (req, res) => {
-  request(
-    {
-      url: "https://chatapi.viber.com/pa/send_message",
-      headers: {
-        "X-Viber-Auth-Token": viberToken,
-      },
-      method: "POST",
-      json: true,
-      body: {
-        receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
-        min_api_version: 1,
-        sender: {
-          name: "TrafficSBot",
+  pool
+    .query(
+      `INSERT INTO Messages("text",senderId,receiverId,"type")
+  VALUES ('Hello','rmP/uW++SMfOUeH3nZ6YbA==','MN9s1Ip+rvLoIzPA8IRpsA==','text');`,
+    )
+    .then(() => {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/send_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
+            min_api_version: 1,
+            sender: {
+              name: "TrafficSBot",
+            },
+            tracking_data: "tracking data",
+            type: "text",
+            text: "Hello world!",
+          },
         },
-        tracking_data: "tracking data",
-        type: "text",
-        text: "Hello world!",
-      },
-    },
-    (error, response) => {
-      res.send(response.body);
-    },
-  );
+        (error, response) => {
+          res.send(response.body);
+        },
+      );
+    });
 });
 
 app.get("*", (req, res) => {
