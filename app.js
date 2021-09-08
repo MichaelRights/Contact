@@ -227,11 +227,12 @@ app.get("/get_account_info", (req, res) => {
   );
 });
 
-app.get("/send_message", (req, res) => {
+app.post("/send_message", (req, res) => {
+  const text = req.body.text;
   pool
     .query(
       `INSERT INTO Messages("text",senderId,receiverId,"type")
-  VALUES ('Hello','rmP/uW++SMfOUeH3nZ6YbA==','MN9s1Ip+rvLoIzPA8IRpsA==','text');`,
+  VALUES (${text},'rmP/uW++SMfOUeH3nZ6YbA==','MN9s1Ip+rvLoIzPA8IRpsA==','text');`,
     )
     .then(() => {
       request(
