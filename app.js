@@ -142,10 +142,7 @@ app.post("/webhook", async (req, res) => {
           method: "POST",
           json: true,
           body: {
-            broadcast_list: [
-              "MN9s1Ip+rvLoIzPA8IRpsA==",
-              "rmP/uW++SMfOUeH3nZ6YbA==",
-            ],
+            broadcast_list: ["rmP/uW++SMfOUeH3nZ6YbA=="],
             min_api_version: 2,
             sender: {
               name: "TrafficSBot",
@@ -246,14 +243,14 @@ app.post("/send_message", (req, res) => {
           method: "POST",
           json: true,
           body: {
-            receiver: "rmP/uW++SMfOUeH3nZ6YbA==",
+            receiver: "MN9s1Ip+rvLoIzPA8IRpsA==",
             min_api_version: 1,
             sender: {
               name: "TrafficSBot",
             },
             tracking_data: "tracking data",
             type: "text",
-            text: "Hello world!",
+            text: text,
           },
         },
         (error, response) => {
