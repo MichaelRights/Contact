@@ -275,29 +275,29 @@ app.post("/send_message", async (req, res) => {
           where id = ${message.id}`);
         },
       );
-      request(
-        {
-          url: "https://chatapi.viber.com/pa/send_message",
-          headers: {
-            "X-Viber-Auth-Token": viberToken,
-          },
-          method: "POST",
-          json: true,
-          body: {
-            receiver: "MN9s1Ip+rvLoIzPA8IRpsA==",
-            min_api_version: 1,
-            sender: {
-              name: "Dzerov Grac Username",
-            },
-            tracking_data: "tracking data",
-            type: "text",
-            text: text,
-          },
-        },
-        (error, response) => {
-          res.send(response.body);
-        },
-      );
+      // request(
+      //   {
+      //     url: "https://chatapi.viber.com/pa/send_message",
+      //     headers: {
+      //       "X-Viber-Auth-Token": viberToken,
+      //     },
+      //     method: "POST",
+      //     json: true,
+      //     body: {
+      //       receiver: "MN9s1Ip+rvLoIzPA8IRpsA==",
+      //       min_api_version: 1,
+      //       sender: {
+      //         name: "Dzerov Grac Username",
+      //       },
+      //       tracking_data: "tracking data",
+      //       type: "text",
+      //       text: text,
+      //     },
+      //   },
+      //   (error, response) => {
+      //     res.send(response.body);
+      //   },
+      // );
     });
 });
 
