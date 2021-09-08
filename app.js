@@ -240,6 +240,7 @@ app.post("/send_message", async (req, res) => {
   const users = (await pool.query("select * from users")).rows.map(
     (user) => user.id,
   );
+  console.log(users);
   pool
     .query(
       `INSERT INTO Messages("text",senderId,receiverId,"type")
