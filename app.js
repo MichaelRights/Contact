@@ -127,7 +127,7 @@ app.post("/webhook", async (req, res) => {
     }
 
     return;
-  } else if (req.body.event === "subscribed") {
+  } else if (req.body.event === "conversation_started") {
     const user = (
       await pool.query(`select * from users where id = ${req.body.user.id}`)
     ).rows;
