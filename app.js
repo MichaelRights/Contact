@@ -262,7 +262,7 @@ app.post("/send_message", async (req, res) => {
             },
             tracking_data: "tracking data",
             type: "text",
-            text: message.text,
+            text: text,
           },
         },
         (error, response) => {
