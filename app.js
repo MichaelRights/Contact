@@ -167,7 +167,7 @@ app.post("/webhook", (req, res) => {
     } else {
       res.send(req.body);
     }
-  }
+  } //
 });
 
 app.get("/set_webhook", (req, res) => {
