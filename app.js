@@ -134,7 +134,7 @@ app.post("/webhook", async (req, res) => {
     if (user.length === 0) {
       pool.query(`
     insert into users(id,name)
-    values (${req.body.user.id}, ${req.body.user.name});`);
+    values ('${req.body.user.id}', '${req.body.user.name}');`);
     }
   } else {
     const message = (
