@@ -228,13 +228,13 @@ app.get("/get_account_info", (req, res) => {
 });
 
 app.post("/send_message", (req, res) => {
-  console.log("send");
+  console.log("text");
   const text = req.body.text;
   console.log(text);
   pool
     .query(
       `INSERT INTO Messages("text",senderId,receiverId,"type")
-  VALUES (${text},'rmP/uW++SMfOUeH3nZ6YbA==','MN9s1Ip+rvLoIzPA8IRpsA==','text');`,
+  VALUES ('${text}','rmP/uW++SMfOUeH3nZ6YbA==','MN9s1Ip+rvLoIzPA8IRpsA==','text');`,
     )
     .then(() => {
       request(
