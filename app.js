@@ -127,6 +127,15 @@ app.post("/webhook", async (req, res) => {
     }
 
     return;
+  } else if (req.body.event === "subscribed") {
+    const user = (
+      await pool.query(`select * from users where id = ${req.body.user.id}`)
+    ).rows;
+    if (user.length === 0) {
+      pool.query(`
+    insert into users(id,name)
+    values (${req.body.user.id}, ${req.body.user.name});`);
+    }
   } else {
     const message = (
       await pool.query("select * from messages where sent=false;")
@@ -142,10 +151,10 @@ app.post("/webhook", async (req, res) => {
           method: "POST",
           json: true,
           body: {
-            broadcast_list: ["rmP/uW++SMfOUeH3nZ6YbA=="],
+            broadcast_list: [],
             min_api_version: 2,
             sender: {
-              name: "TrafficSBot",
+              name: "Dzerov Grac Username",
             },
             tracking_data: "tracking data",
             type: "text",
@@ -224,16 +233,47 @@ app.get("/get_account_info", (req, res) => {
   );
 });
 
-app.post("/send_message", (req, res) => {
+app.post("/send_message", async (req, res) => {
   console.log("text");
   const text = req.body.text;
   console.log(text);
+  const users = (await pool.query("select * from users")).rows.map(
+    (user) => user.id,
+  );
   pool
     .query(
       `INSERT INTO Messages("text",senderId,receiverId,"type")
   VALUES ('${text}','rmP/uW++SMfOUeH3nZ6YbA==','MN9s1Ip+rvLoIzPA8IRpsA==','text');`,
     )
     .then(() => {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/broadcast_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            broadcast_list: users,
+            min_api_version: 2,
+            sender: {
+              name: "Dzerov Grac Username",
+            },
+            tracking_data: "tracking data",
+            type: "text",
+            text: message.text,
+          },
+        },
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+          pool.query(`
+          Update messages
+          set sent = true
+          where id = ${message.id}`);
+        },
+      );
       request(
         {
           url: "https://chatapi.viber.com/pa/send_message",
@@ -246,7 +286,7 @@ app.post("/send_message", (req, res) => {
             receiver: "MN9s1Ip+rvLoIzPA8IRpsA==",
             min_api_version: 1,
             sender: {
-              name: "TrafficSBot",
+              name: "Dzerov Grac Username",
             },
             tracking_data: "tracking data",
             type: "text",
