@@ -228,7 +228,9 @@ app.get("/get_account_info", (req, res) => {
 });
 
 app.post("/send_message", (req, res) => {
+  console.log("send");
   const text = req.body.text;
+  console.log(text);
   pool
     .query(
       `INSERT INTO Messages("text",senderId,receiverId,"type")
