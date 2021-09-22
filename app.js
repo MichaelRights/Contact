@@ -338,7 +338,7 @@ app.post("/send_message", async (req, res) => {
     });
 });
 
-app.post("/get_locations", (req, res) => {
+app.post("/get_locations", async (req, res) => {
   const users = (await pool.query("select * from users")).rows.map(
     (user) => user.id,
   );
