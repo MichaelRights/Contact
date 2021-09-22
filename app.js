@@ -74,6 +74,42 @@ app.post("/webhook", async (req, res) => {
           res.send(response.body);
         },
       );
+    } else if (req.body.message.text === "/location") {
+      request(
+        {
+          url: "https://chatapi.viber.com/pa/send_message",
+          headers: {
+            "X-Viber-Auth-Token": viberToken,
+          },
+          method: "POST",
+          json: true,
+          body: {
+            receiver: req.body.sender.id,
+            min_api_version: 7,
+            sender: {
+              name: "TrafficSBot",
+            },
+            type: "text",
+            keyboard: {
+              Type: "keyboard",
+              DefaultHeight: false,
+              Buttons: [
+                {
+                  ActionType: "reply",
+                  ActionBody: "reply to me",
+                  Text: "Key text",
+                  TextSize: "regular",
+                },
+              ],
+            },
+            text: "if you want to work for us type /yes else /no",
+          },
+        },
+        (error, response) => {
+          console.log(response.body);
+          res.send(response.body);
+        },
+      );
     } else if (req.body.message.text === "/yes") {
       request(
         {
