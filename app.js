@@ -91,19 +91,7 @@ app.post("/webhook", async (req, res) => {
               name: "TrafficSBot",
             },
             type: "text",
-            keyboard: {
-              Type: "keyboard",
-              DefaultHeight: false,
-              Buttons: [
-                {
-                  ActionType: "reply",
-                  ActionBody: "reply to me",
-                  Text: "Key text",
-                  TextSize: "regular",
-                },
-              ],
-            },
-            text: "if you want to work for us type /yes else /no",
+            text: "loc",
           },
         },
         (error, response) => {
