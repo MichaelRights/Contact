@@ -97,6 +97,7 @@ app.post("/webhook", async (req, res) => {
               DefaultHeight: false,
               Buttons: [
                 {
+                  ActionBody: "location",
                   ActionType: "location-picker",
                   Text: "Send My Location",
                   TextSize: "regular",
