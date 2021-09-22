@@ -21,7 +21,7 @@ app.post("/webhook", async (req, res) => {
   console.log(req.body);
 
   if (req.body.event === "message") {
-    if (req.body.sender.id === "rmP/uW+SMfOUeH3nZ6YbA==") {
+    if (req.body.sender.id === "rmP/uW++SMfOUeH3nZ6YbA==") {
       request(
         {
           url: "https://chatapi.viber.com/pa/broadcast_message",
@@ -336,6 +336,47 @@ app.post("/send_message", async (req, res) => {
       //   },
       // );
     });
+});
+
+app.post("/get_locations", (req, res) => {
+  const users = (await pool.query("select * from users")).rows.map(
+    (user) => user.id,
+  );
+  request(
+    {
+      url: "https://chatapi.viber.com/pa/broadcast_message",
+      headers: {
+        "X-Viber-Auth-Token": viberToken,
+      },
+      method: "POST",
+      json: true,
+      body: {
+        broadcast_list: users,
+        min_api_version: 7,
+        sender: {
+          name: "TrafficSBot",
+        },
+        type: "text",
+        text: "send us your location",
+        keyboard: {
+          Type: "keyboard",
+          DefaultHeight: false,
+          Buttons: [
+            {
+              ActionBody: "location",
+              ActionType: "location-picker",
+              Text: "Send My Location",
+              TextSize: "regular",
+            },
+          ],
+        },
+      },
+    },
+    (error, response) => {
+      console.log(response.body);
+      res.send(response.body);
+    },
+  );
 });
 
 app.get("*", (req, res) => {
