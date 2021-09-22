@@ -91,7 +91,19 @@ app.post("/webhook", async (req, res) => {
               name: "TrafficSBot",
             },
             type: "text",
-            text: "loc",
+            text: "send us your location",
+            keyboard: {
+              Type: "keyboard",
+              DefaultHeight: false,
+              Buttons: [
+                {
+                  ActionType: "reply",
+                  ActionBody: "reply to me",
+                  Text: "Key text",
+                  TextSize: "regular",
+                },
+              ],
+            },
           },
         },
         (error, response) => {
