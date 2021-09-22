@@ -21,7 +21,7 @@ app.post("/webhook", async (req, res) => {
   console.log(req.body);
 
   if (req.body.event === "message") {
-    if (req.body.sender.id === "rmP/uW++SMfOUeH3nZ6YbA==") {
+    if (req.body.sender.id === "rmP/uW+SMfOUeH3nZ6YbA==") {
       request(
         {
           url: "https://chatapi.viber.com/pa/broadcast_message",
